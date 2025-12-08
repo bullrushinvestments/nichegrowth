@@ -1,0 +1,143 @@
+interface BuildCommand {
+  command: string;
+  output?: string;
+}
+
+interface EnvVariables {
+  [key: string]: string | undefined;
+}
+
+interface HeaderRule {
+  source: string;
+  headers: Array<{ key: string; value: string }>;
+}
+
+interface CacheStrategy {
+  src: string;
+  regex: boolean;
+  immutable: number;
+}
+
+interface FrameworkSettings {
+  vercel?: { [key: string]: any };
+  netlify?: { [key: string]: any };
+}
+
+interface DeployConfig {
+  build: BuildCommand;
+  env: EnvVariables;
+  headers: Array<HeaderRule>;
+  cacheStrategies: Array<CacheStrategy>;
+  frameworkSettings: FrameworkSettings;
+}
+
+export const deployConfig: DeployConfig = {
+  build: {
+    command: "next build",
+    output: ".next"
+  },
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_STRIPE_KEY: process.env.NEXT_PUBLIC_STRIPE_KEY
+  },
+  headers: [
+    {
+      source: "/api/:path*",
+      headers: [
+        { key: "Access-Control-Allow-Credentials", value: "true" },
+        { key: "Access-Control-Allow-Origin", value: "*" },
+        { key: "Vary", value: "Origin" }
+      ]
+    }
+  ],
+  cacheStrategies: [
+    {
+      src: "/static/:path*",
+      regex: true,
+      immutable: 31536000
+    }
+  ],
+  frameworkSettings: {
+    vercel: {
+      buildCommand: "next build",
+      startCommand: "next start"
+    },
+    netlify: {
+      buildContext: "production",
+      functions: ".vercel/functions",
+      redirects: "_redirects"
+    }
+  }
+};
+
+interface BuildCommand {
+  command: string;
+  output?: string;
+}
+
+interface EnvVariables {
+  [key: string]: string | undefined;
+}
+
+interface HeaderRule {
+  source: string;
+  headers: Array<{ key: string; value: string }>;
+}
+
+interface CacheStrategy {
+  src: string;
+  regex: boolean;
+  immutable: number;
+}
+
+interface FrameworkSettings {
+  vercel?: { [key: string]: any };
+  netlify?: { [key: string]: any };
+}
+
+interface DeployConfig {
+  build: BuildCommand;
+  env: EnvVariables;
+  headers: Array<HeaderRule>;
+  cacheStrategies: Array<CacheStrategy>;
+  frameworkSettings: FrameworkSettings;
+}
+
+export const deployConfig: DeployConfig = {
+  build: {
+    command: "next build",
+    output: ".next"
+  },
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_STRIPE_KEY: process.env.NEXT_PUBLIC_STRIPE_KEY
+  },
+  headers: [
+    {
+      source: "/api/:path*",
+      headers: [
+        { key: "Access-Control-Allow-Credentials", value: "true" },
+        { key: "Access-Control-Allow-Origin", value: "*" },
+        { key: "Vary", value: "Origin" }
+      ]
+    }
+  ],
+  cacheStrategies: [
+    {
+      src: "/static/:path*",
+      regex: true,
+      immutable: 31536000
+    }
+  ],
+  frameworkSettings: {
+    vercel: {
+      buildCommand: "next build",
+      startCommand: "next start"
+    },
+    netlify: {
+      buildContext: "production",
+      functions: ".vercel/functions",
+      redirects: "_redirects"
+    }
+  }
+};
